@@ -28,6 +28,25 @@ pack.register({
 
 ## Registering a health-check
 
+The hale plugin exposes an `addCheck` function that is used to register health-checks. A health-check is an object with the following options:
+
+* *name*: the name of the healthcheck.
+* *description*: a description of the healthcheck.
+* *tags*: optional, tags to set for the healthcheck.
+* *timeout*: optional, timeout in milliseconds for the healtcheck, defaults to 2000.
+* *handler*: function(collector, done) the function that performs the check.
+
+### The collector object
+
+The collector object exposes functions for logging events, timing operations, and capturing context data.
+
+* `collector.info(message, [data])`: Log an info event.
+* `collector.notice(message, [data])`: Log a notice event.
+* `collector.warning(message, [data])`: Log a warning event.
+* `collector.failure(message, [data])`: Log a failure event.
+* `collector.mark(name)`: Start a timer that can be used to mark checkpoints. Returns a `function([label])` that can be used to add a mark with a label.
+* `collector.context(name, data)`: Add context data to the check.
+
 ```js
 plugin.dependency('hale', function registerHealthcheck(plugin, next) {
   plugin.plugins.hale.addCheck({
@@ -63,8 +82,12 @@ plugin.dependency('hale', function registerHealthcheck(plugin, next) {
       handler: function (collector) {
         var mark = collector.mark('almost');
         setTimeout(function partial() {
-          mark();
+          mark('halfway');
         }, 50);
+
+        setTimeout(function partial() {
+          mark('Sooo close!');
+        }, 75);
       },
     });
 
@@ -91,6 +114,8 @@ The status of each individual check will be the that of the "worst" logged event
 * _failure_: FAIL
 
 Likewise the status of the overall health-check will be that of the worst individual check.
+
+The top level `time` attributes is a Unix timestamp representing the time the helthcheck was performed. `checks[*].time` is the elapsed time for the individual health-check in microseconds. In `checks[*].context.times[*]` the `start` attribute is the elapsed time since the check started and `.marks[*].elapsed` is the number of microseconds since the mark timer started.
 
 ```json
 {
@@ -148,7 +173,16 @@ Likewise the status of the overall health-check will be that of the worst indivi
           {
             "name": "almost",
             "start": 4,
-            "elapsed": 54951
+            "marks": [
+              {
+                "label": "halfway",
+                "elapsed": 50178
+              },
+              {
+                "label": "Sooo close!",
+                "elapsed": 78729
+              }
+            ]
           }
         ],
         "log": [
