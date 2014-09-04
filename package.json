@@ -1,0 +1,32 @@
+{
+  "name": "hale",
+  "version": "1.0.0",
+  "description": "Healthcheck plugin for hapi",
+  "main": "index.js",
+  "scripts": {
+    "test": "node -e \"require('grunt').tasks(['test']);\"",
+    "prepush": "npm test"
+  },
+  "keywords": [
+    "healthcheck",
+    "hapi"
+  ],
+  "author": "Hugo Wetterberg <hugo@wetterberg.nu>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bloglovin/hale.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "husky": "^0.6.1",
+    "istanbul": "^0.3.0",
+    "lintlovin": "^1.4.0",
+    "mocha": "^1.21.4"
+  },
+  "dependencies": {
+    "hoek": "^2.4.1",
+    "lodash": "^2.4.1",
+    "promise": "^5.0.0"
+  }
+}
