@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node -e \"require('grunt').tasks(['test']);\"",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "test-all": "node -e \"require('grunt').tasks(['test-all']);\""
   },
   "keywords": [
     "healthcheck",
@@ -26,6 +27,7 @@
   },
   "dependencies": {
     "hoek": "^2.4.1",
+    "lintlovin": "^1.6.0",
     "lodash": "^2.4.1",
     "promise": "^5.0.0"
   }
