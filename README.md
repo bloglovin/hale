@@ -23,7 +23,9 @@ pack.register({
 
 * *path*: optional, the path to use for the health-check route, defaults to '/healthcheck'.
 * *routeConfig*: optional, object that will be used as config for the health-check route.
-* *exposeOn*: optional, only register the health-check route on servers with one of the specified labels.
+* *exposeOn*: optional, only register the health-check route on servers with the specified labels, registers on all servers in the pack by default.
+* *exposePublicOn*: optional, register a simple health-check route on the servers with the specified labels, no public healthcheck is registered by default.
+* *publicPath*: optional, the path to use for the public health-check route, defaults to '/healthcheck'.
 * *metadata*: optional, information that will be merged with the health-check result object. Will *not* overwrite existing attributes of the result object.
 
 ## Registering a health-check
